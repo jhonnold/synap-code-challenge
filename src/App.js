@@ -2,10 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import MessagePreview from './components/MessagePreview';
 import LoadingCircle from './components/LoadingCircle';
+import SearchBar from './components/SearchBar';
 
 const getScreenSize = () => {
-  if (window.innerWidth < 600) return 'small';
-  if (window.innerWidth < 768) return 'medium';
+  if (window.innerWidth < 601) return 'small';
+  if (window.innerWidth < 769) return 'medium';
   return 'large';
 };
 
@@ -90,7 +91,7 @@ class App extends React.Component {
     if (screenSize === 'small') {
       return (
         <div className="home home--small">
-          {/* Search Bar */}
+          <SearchBar />
           {/* Company People */}
           {this.renderMessagePreview()}
         </div>
@@ -101,7 +102,7 @@ class App extends React.Component {
       return (
         <div className="home">
           <div className="home__left">
-            {/* Search Bar */}
+            <SearchBar />
             {/* Person Company */}
           </div>
           <div className="home__right">{this.renderMessagePreview()}</div>
@@ -113,7 +114,7 @@ class App extends React.Component {
       <div className="home">
         <div className="home__left">{/* Person Company */}</div>
         <div className="home__right">
-          {/* Search Bar */}
+          <SearchBar />
           {this.renderMessagePreview()}
         </div>
       </div>
