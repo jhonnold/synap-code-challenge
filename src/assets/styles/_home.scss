@@ -1,0 +1,17 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+
+  &--small {
+    flex-direction: column;
+  }
+
+  &__left {
+    width: 16rem;
+    border-right: 1px solid black;
+  }
+
+  &__right {
+    flex: 1;
+  }
+}
