@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import MessageList from './containers/MessageList';
+import Message from './components/Message';
 import SearchBar from './components/SearchBar';
 
 const getScreenSize = () => {
@@ -51,11 +52,13 @@ class App extends React.Component {
   loadMessages(count = 100, index = 0) {
     if (this.state.loading) return;
 
-    this.setState({ messageData: {
-      ...this.state.messageData,
-      error: null,
-      loading: true,
-    }});
+    this.setState({
+      messageData: {
+        ...this.state.messageData,
+        error: null,
+        loading: true,
+      },
+    });
 
     axios
       .get(
@@ -84,19 +87,26 @@ class App extends React.Component {
 
   renderMessagePreview() {
     return (
-      <React.Fragment>
-        {/* <Route path="/message/:messageId" exact compo */}
+      <Switch>
+        <Route
+          path="/message/:messageId"
+          exact
+          render={routeParams => (
+            <Message
+              {...routeParams}
+              messages={this.state.messageData.messages}
+            />
+          )}
+        />
         <Route
           render={() => (
             <MessageList
               messageData={this.state.messageData}
-              loadMore={page =>
-                this.loadMessages(100, page * 100)
-              }
+              loadMore={page => this.loadMessages(20, page * 20)}
             />
           )}
         />
-      </React.Fragment>
+      </Switch>
     );
   }
 

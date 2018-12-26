@@ -25,7 +25,33 @@
     }
 
     &:hover {
-      background-color: #D4D4D4;
+      background-color: #d4d4d4;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+
+    h2 {
+      font-weight: bold;
+      font-size: 2rem;
+      line-height: 3rem;
+    }
+
+    hr {
+      width: 100%;
+    }
+  }
+
+  &__info {
+    display: flex;
+    line-height: 125%;
+
+    h4 {
+      font-weight: bold;
+      margin-right: 0.5rem;
     }
   }
 }
