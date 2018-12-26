@@ -30,6 +30,7 @@ class App extends React.Component {
 
     this.loadMessages = this.loadMessages.bind(this);
     this.renderMessagePreview = this.renderMessagePreview.bind(this);
+    this.renderSearchBar = this.renderSearchBar.bind(this);
     this.handleScreenResize = this.handleScreenResize.bind(this);
   }
 
@@ -78,11 +79,15 @@ class App extends React.Component {
   renderMessagePreview() {
     const { loading, messages, error } = this.state.messageData;
     if (loading) return <LoadingCircle />;
-    if (error) return <span>{error.message}</span>;
+    if (error) return <span class="error">There was an error loading your messages, please reload the page.</span>;
 
     return messages.map(message => (
       <MessagePreview data={message} key={message.id} />
     ));
+  }
+
+  renderSearchBar() {
+    return <SearchBar />;
   }
 
   render() {
@@ -91,7 +96,7 @@ class App extends React.Component {
     if (screenSize === 'small') {
       return (
         <div className="home home--small">
-          <SearchBar />
+          {this.renderSearchBar()}
           {/* Company People */}
           {this.renderMessagePreview()}
         </div>
@@ -102,7 +107,7 @@ class App extends React.Component {
       return (
         <div className="home">
           <div className="home__left">
-            <SearchBar />
+            {this.renderSearchBar()}
             {/* Person Company */}
           </div>
           <div className="home__right">{this.renderMessagePreview()}</div>
@@ -114,7 +119,7 @@ class App extends React.Component {
       <div className="home">
         <div className="home__left">{/* Person Company */}</div>
         <div className="home__right">
-          <SearchBar />
+          {this.renderSearchBar()}
           {this.renderMessagePreview()}
         </div>
       </div>
