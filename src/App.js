@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import MessagePreview from './components/MessagePreview';
-import LoadingCircle from './components/LoadingCircle';
+import { Route } from 'react-router-dom';
+import MessageList from './containers/MessageList';
 import SearchBar from './components/SearchBar';
 
 const getScreenSize = () => {
@@ -17,13 +17,9 @@ class App extends React.Component {
     this.state = {
       messageData: {
         messages: [],
-        loading: true,
+        loading: false,
         error: null,
-      },
-      peopleData: {
-        people: [],
-        loading: true,
-        error: null,
+        index: 0,
       },
       screenSize: getScreenSize(),
     };
@@ -31,6 +27,7 @@ class App extends React.Component {
     this.loadMessages = this.loadMessages.bind(this);
     this.renderMessagePreview = this.renderMessagePreview.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
+    this.renderPeoplePreview = this.renderPeoplePreview.bind(this);
     this.handleScreenResize = this.handleScreenResize.bind(this);
   }
 
@@ -51,10 +48,18 @@ class App extends React.Component {
     }
   }
 
-  loadMessages(count = 20) {
+  loadMessages(count = 100, index = 0) {
+    if (this.state.loading) return;
+
+    this.setState({ messageData: {
+      ...this.state.messageData,
+      error: null,
+      loading: true,
+    }});
+
     axios
       .get(
-        `https://morning-falls-3769.herokuapp.com/api/messages?count=${count}`
+        `https://morning-falls-3769.herokuapp.com/api/messages?count=${count}&start=${index}`
       )
       .then(response => {
         this.setState({
@@ -62,6 +67,7 @@ class App extends React.Component {
             messages: [...response.data, ...this.state.messageData.messages],
             loading: false,
             error: null,
+            index: this.state.messageData.index + count,
           },
         });
       })
@@ -77,13 +83,29 @@ class App extends React.Component {
   }
 
   renderMessagePreview() {
-    const { loading, messages, error } = this.state.messageData;
-    if (loading) return <LoadingCircle />;
-    if (error) return <span class="error">There was an error loading your messages, please reload the page.</span>;
+    return (
+      <React.Fragment>
+        {/* <Route path="/message/:messageId" exact compo */}
+        <Route
+          render={() => (
+            <MessageList
+              messageData={this.state.messageData}
+              loadMore={page =>
+                this.loadMessages(100, page * 100)
+              }
+            />
+          )}
+        />
+      </React.Fragment>
+    );
+  }
 
-    return messages.map(message => (
-      <MessagePreview data={message} key={message.id} />
-    ));
+  renderPeoplePreview() {
+    return (
+      <React.Fragment>
+        <Route render={() => <div>Please select an email</div>} />
+      </React.Fragment>
+    );
   }
 
   renderSearchBar() {
@@ -97,7 +119,7 @@ class App extends React.Component {
       return (
         <div className="home home--small">
           {this.renderSearchBar()}
-          {/* Company People */}
+          {this.renderPeoplePreview()}
           {this.renderMessagePreview()}
         </div>
       );
@@ -108,7 +130,7 @@ class App extends React.Component {
         <div className="home">
           <div className="home__left">
             {this.renderSearchBar()}
-            {/* Person Company */}
+            {this.renderPeoplePreview()}
           </div>
           <div className="home__right">{this.renderMessagePreview()}</div>
         </div>
@@ -117,7 +139,7 @@ class App extends React.Component {
 
     return (
       <div className="home">
-        <div className="home__left">{/* Person Company */}</div>
+        <div className="home__left">{this.renderPeoplePreview()}</div>
         <div className="home__right">
           {this.renderSearchBar()}
           {this.renderMessagePreview()}

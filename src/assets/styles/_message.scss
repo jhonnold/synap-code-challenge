@@ -1,9 +1,19 @@
 .message {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+  }
+
   &__preview {
     display: flex;
     flex-direction: column;
     padding: 0.5rem 0.25rem;
     border-top: 1px solid black;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
 
     h6 {
       font-weight: bold;
@@ -12,6 +22,10 @@
 
     &:first-of-type {
       border: none;
+    }
+
+    &:hover {
+      background-color: #D4D4D4;
     }
   }
 }
