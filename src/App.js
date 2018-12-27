@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
 import MessageList from './containers/MessageList';
+import PeoplePreview from './containers/PeoplePreview';
 import Message from './components/Message';
 import SearchBar from './components/SearchBar';
 
@@ -22,10 +23,16 @@ class App extends React.Component {
         error: null,
         index: 0,
       },
+      peopleData: {
+        people: {},
+        loading: 0,
+        error: null,
+      },
       screenSize: getScreenSize(),
     };
 
     this.loadMessages = this.loadMessages.bind(this);
+    this.loadPerson = this.loadPerson.bind(this);
     this.renderMessagePreview = this.renderMessagePreview.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
     this.renderPeoplePreview = this.renderPeoplePreview.bind(this);
@@ -85,6 +92,29 @@ class App extends React.Component {
       });
   }
 
+  loadPerson(email) {
+      this.setState({
+        ...this.state.peopleData,
+        error: null,
+        loading: this.state.peopleData.loading + 1,
+      });
+
+    axios
+      .get(`https://morning-falls-3769.herokuapp.com/api/people/${email}`)
+      .then(response => {
+        this.setState({
+          peopleData: {
+            people: {
+              ...this.state.peopleData.people, 
+              [email]: response.data,
+            },
+            loading: this.state.peopleData.loading - 1,
+            error: null,
+          }
+        })
+      });
+  }
+
   renderMessagePreview() {
     return (
       <Switch>
@@ -112,9 +142,20 @@ class App extends React.Component {
 
   renderPeoplePreview() {
     return (
-      <React.Fragment>
+      <Switch>
+        <Route
+          path="/message/:messageId"
+          render={routeParams => (
+            <PeoplePreview
+              {...routeParams}
+              messages={this.state.messageData.messages}
+              peopleData={this.state.peopleData}
+              getPersonData={this.loadPerson}
+            />
+          )}
+        />
         <Route render={() => <div>Please select an email</div>} />
-      </React.Fragment>
+      </Switch>
     );
   }
 
