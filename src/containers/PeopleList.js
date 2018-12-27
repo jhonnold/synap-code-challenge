@@ -1,4 +1,5 @@
 import React from 'react';
+import PersonPreview from '../components/PersonPreview';
 
 class PeopleList extends React.Component {
   constructor(props) {
@@ -30,17 +31,27 @@ class PeopleList extends React.Component {
   }
 
   render() {
+    const { people } = this.props.peopleData;
     const message = this.getMessage();
 
     // The redirect will occur from the Message component
     if (!message) return null;
-    const people = [message.from, message.to, ...message.cc];
+
+    const fromData = people[message.from];
+    const toData = people[message.to];
+    const ccData = message.cc.map(e => people[e]);
 
     return (
       <div className="people__container">
-      
+        {fromData && <PersonPreview personData={fromData} header="From" />}
+        {toData && <PersonPreview personData={toData} header="To" />}
+        {ccData.map(p => {
+          if (!p) return null;
+
+          return <PersonPreview personData={p} header="CC" key={p.email} />;
+        })}
       </div>
-    )
+    );
   }
 }
 

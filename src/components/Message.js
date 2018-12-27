@@ -16,7 +16,7 @@ class Message extends React.Component {
         <h2>{messageData.subject}</h2>
         <div className="message__info">
           <h4>From: </h4>
-          <p>{messageData.to}</p>
+          <p>{messageData.from}</p>
         </div>
         <div className="message__info">
           <h4>To: </h4>
