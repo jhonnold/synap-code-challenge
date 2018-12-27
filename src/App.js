@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
 import MessageList from './containers/MessageList';
-import PeoplePreview from './containers/PeoplePreview';
+import PeopleList from './containers/PeopleList';
 import Message from './components/Message';
 import SearchBar from './components/SearchBar';
 
@@ -35,7 +35,7 @@ class App extends React.Component {
     this.loadPerson = this.loadPerson.bind(this);
     this.renderMessagePreview = this.renderMessagePreview.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
-    this.renderPeoplePreview = this.renderPeoplePreview.bind(this);
+    this.renderPeopleList = this.renderPeopleList.bind(this);
     this.handleScreenResize = this.handleScreenResize.bind(this);
   }
 
@@ -140,13 +140,13 @@ class App extends React.Component {
     );
   }
 
-  renderPeoplePreview() {
+  renderPeopleList() {
     return (
       <Switch>
         <Route
           path="/message/:messageId"
           render={routeParams => (
-            <PeoplePreview
+            <PeopleList
               {...routeParams}
               messages={this.state.messageData.messages}
               peopleData={this.state.peopleData}
@@ -170,7 +170,7 @@ class App extends React.Component {
       return (
         <div className="home home--small">
           {this.renderSearchBar()}
-          {this.renderPeoplePreview()}
+          {this.renderPeopleList()}
           {this.renderMessagePreview()}
         </div>
       );
@@ -181,7 +181,7 @@ class App extends React.Component {
         <div className="home">
           <div className="home__left">
             {this.renderSearchBar()}
-            {this.renderPeoplePreview()}
+            {this.renderPeopleList()}
           </div>
           <div className="home__right">{this.renderMessagePreview()}</div>
         </div>
@@ -190,7 +190,7 @@ class App extends React.Component {
 
     return (
       <div className="home">
-        <div className="home__left">{this.renderPeoplePreview()}</div>
+        <div className="home__left">{this.renderPeopleList()}</div>
         <div className="home__right">
           {this.renderSearchBar()}
           {this.renderMessagePreview()}
