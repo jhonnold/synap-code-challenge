@@ -93,11 +93,11 @@ class App extends React.Component {
   }
 
   loadPerson(email) {
-      this.setState({
-        ...this.state.peopleData,
-        error: null,
-        loading: this.state.peopleData.loading + 1,
-      });
+    this.setState({
+      ...this.state.peopleData,
+      error: null,
+      loading: this.state.peopleData.loading + 1,
+    });
 
     axios
       .get(`https://morning-falls-3769.herokuapp.com/api/people/${email}`)
@@ -105,13 +105,13 @@ class App extends React.Component {
         this.setState({
           peopleData: {
             people: {
-              ...this.state.peopleData.people, 
+              ...this.state.peopleData.people,
               [email]: response.data,
             },
             loading: this.state.peopleData.loading - 1,
             error: null,
-          }
-        })
+          },
+        });
       });
   }
 
@@ -154,7 +154,13 @@ class App extends React.Component {
             />
           )}
         />
-        <Route render={() => <div>Please select an email</div>} />
+        <Route
+          render={() => (
+            <div className="people__placeholder">
+              <p>Select an email</p>
+            </div>
+          )}
+        />
       </Switch>
     );
   }
