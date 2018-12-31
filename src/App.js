@@ -56,8 +56,8 @@ class App extends React.Component {
     }
   }
 
-  loadMessages(count = 100, index = 0) {
-    if (this.state.loading) return;
+  loadMessages(count = 20, index = 0) {
+    if (this.state.loading || this.loading) return;
 
     this.setState({
       messageData: {
@@ -67,11 +67,14 @@ class App extends React.Component {
       },
     });
 
+    this.loading = true;
+
     axios
       .get(
         `https://morning-falls-3769.herokuapp.com/api/messages?count=${count}&start=${index}`
       )
       .then(response => {
+        this.loading = false;
         this.setState({
           messageData: {
             messages: [...response.data, ...this.state.messageData.messages],
@@ -82,6 +85,7 @@ class App extends React.Component {
         });
       })
       .catch(err => {
+        this.loading = false;
         this.setState({
           messageData: {
             ...this.state.messageData,
@@ -132,7 +136,7 @@ class App extends React.Component {
           render={() => (
             <MessageList
               messageData={this.state.messageData}
-              loadMore={page => this.loadMessages(20, page * 20)}
+              loadMore={() => this.loadMessages(20, this.state.messageData.index)}
             />
           )}
         />
