@@ -77,7 +77,7 @@ class App extends React.Component {
         this.loading = false;
         this.setState({
           messageData: {
-            messages: [...response.data, ...this.state.messageData.messages],
+            messages: [...this.state.messageData.messages, ...response.data ],
             loading: false,
             error: null,
             index: this.state.messageData.index + count,
@@ -98,9 +98,11 @@ class App extends React.Component {
 
   loadPerson(email) {
     this.setState({
-      ...this.state.peopleData,
-      error: null,
-      loading: this.state.peopleData.loading + 1,
+      peopleData: {
+        ...this.state.peopleData,
+        error: null,
+        loading: this.state.peopleData.loading + 1,
+      },
     });
 
     axios

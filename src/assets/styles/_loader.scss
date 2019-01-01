@@ -1,4 +1,9 @@
-// Borrowed from https://projects.lukehaas.me/css-loaders/
+// Loader from https://projects.lukehaas.me/css-loaders/
+.loader__wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .loader,
 .loader:after {
   border-radius: 50%;
