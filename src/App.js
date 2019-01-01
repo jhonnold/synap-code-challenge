@@ -39,7 +39,6 @@ class App extends React.Component {
     this.handleScreenResize = this.handleScreenResize.bind(this);
   }
 
-  // On app load we need to make a request to start receiving messages
   componentDidMount() {
     window.addEventListener('resize', this.handleScreenResize);
     this.loadMessages();

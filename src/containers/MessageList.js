@@ -39,7 +39,7 @@ class MessageList extends React.Component {
         ))}
         {error && (
           <span className="error">
-            There was an error loading your messages. Please refresh or scroll
+            There was an error loading messages. Please refresh or scroll
             again.
           </span>
         )}
