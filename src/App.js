@@ -77,7 +77,7 @@ class App extends React.Component {
         this.loading = false;
         this.setState({
           messageData: {
-            messages: [...this.state.messageData.messages, ...response.data ],
+            messages: [...this.state.messageData.messages, ...response.data],
             loading: false,
             error: null,
             index: this.state.messageData.index + count,
@@ -138,7 +138,9 @@ class App extends React.Component {
           render={() => (
             <MessageList
               messageData={this.state.messageData}
-              loadMore={() => this.loadMessages(20, this.state.messageData.index)}
+              loadMore={() =>
+                this.loadMessages(20, this.state.messageData.index)
+              }
             />
           )}
         />

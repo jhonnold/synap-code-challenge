@@ -8,7 +8,9 @@ const PersonPreview = ({ personData, header }) => {
       <h6>{header}</h6>
       <img className="people__avatar" src={personData.avatar} alt="Avatar" />
       <p>{personData.name}</p>
-      {personData.company && <p className="people__company">{personData.company.name}</p>}
+      {personData.company && (
+        <p className="people__company">{personData.company.name}</p>
+      )}
     </div>
   );
 };
