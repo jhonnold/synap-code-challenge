@@ -22,7 +22,7 @@ class MessageList extends React.Component {
 
     const { scrollTop, scrollHeight, offsetHeight } = this.list;
 
-    if (scrollTop > scrollHeight - offsetHeight) this.props.loadMore();
+    if (scrollTop + 8 > scrollHeight - offsetHeight) this.props.loadMore();
   }
 
   render() {
